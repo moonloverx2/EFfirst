@@ -90,10 +90,10 @@ namespace EFfirst.Controllers
            
         }
 
-        public void SelectByPage(int page)
+        public void SelectByPage(int page,int pagesize)
         {
             TestEntities dbContext = new TestEntities();
-            var data = (from u in dbContext.UserInfo where u.Id<10 &u.Name.Contains("15:18:06") orderby u.Id descending select u).Skip(2*(page -1)).Take(2).ToList();
+            var data = (from u in dbContext.UserInfo where u.Id<10 &u.Name.Contains("15:18:06") orderby u.Id descending select u).Skip(pagesize * (page -1)).Take(pagesize).ToList();
             foreach (var m in data)
             {
                 Response.Write("Id:" + m.Id + ";Name:" + m.Name + "<br/>");
@@ -101,6 +101,24 @@ namespace EFfirst.Controllers
             }
         }
 
+        public void SelectById(int id)
+        {
+            //只执行了一次sql查询
+            TestEntities dbContext = new TestEntities();
+            var data = dbContext.UserInfo.Find(id);
+            Response.Write("Id:" + data.Id + ";Name:" + data.Name + "<br/>");
+            var data1 = dbContext.UserInfo.Find(id);
+            Response.Write("Id:" + data1.Id + ";Name:" + data1.Name + "<br/>");
+        }
 
+        public void SelectByLamdb(int page, int pagesize)
+        {
+            TestEntities dbContext = new TestEntities();
+            var data = dbContext.UserInfo.Where(u => u.Id < 10).OrderByDescending(u => u.Id).Skip(pagesize * (page - 1)).Take(pagesize).ToList();
+            foreach (var m in data)
+            {
+                Response.Write("Id:" + m.Id + ";Name:" + m.Name + "<br/>");
+            }
+        }
     }
 }
