@@ -93,7 +93,7 @@ namespace EFfirst.Controllers
         public void SelectByPage(int page)
         {
             TestEntities dbContext = new TestEntities();
-            var data = (from u in dbContext.UserInfo orderby u.Id descending select u).Skip(2*(page -1)).Take(2).ToList();
+            var data = (from u in dbContext.UserInfo where u.Id<10 &u.Name.Contains("15:18:06") orderby u.Id descending select u).Skip(2*(page -1)).Take(2).ToList();
             foreach (var m in data)
             {
                 Response.Write("Id:" + m.Id + ";Name:" + m.Name + "<br/>");
