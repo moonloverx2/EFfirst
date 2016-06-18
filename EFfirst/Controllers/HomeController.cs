@@ -90,6 +90,17 @@ namespace EFfirst.Controllers
            
         }
 
+        public void SelectOrder()
+        {
+            TestEntities dbContext = new TestEntities();
+            var data = (from u in dbContext.OrderInfo select u).ToList();
+            foreach (var order in data)
+            {
+                Response.Write("Order Id:" + order.Id + ";Content:" + order.Content + "UserINfo:"+order.UserInfo.Id+"<br/>");
+            }
+        }
+
+
         public void SelectByPage(int page,int pagesize)
         {
             TestEntities dbContext = new TestEntities();
